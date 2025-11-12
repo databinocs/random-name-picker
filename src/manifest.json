@@ -1,11 +1,11 @@
 {
-  "name": "Random Name Picker for Lucky Draw",
-  "short_name": "Random Name Picker",
+  "name": "MAKE IT POSSIBLE - Amadeus Vietnam",
+  "short_name": "MAKE IT POSSIBLE",
   "description": "Simple HTML5 random name picker for picking lucky draw winner using Web Animations API",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f20c49",
-  "theme_color": "#f20c49",
+  "background_color": "#000835",
+  "theme_color": "#000835",
   "icons": [
     {
       "src": "assets/images/touch-icons/apple-touch-icon-72x72.png",

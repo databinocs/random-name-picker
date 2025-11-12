@@ -1,50 +1,60 @@
-$color-white: #ffffff;
-$color-light-grey: #e8e8e8;
-$color-mid-grey: #999999;
-$color-dark-grey: #666666;
+// ===== SPY THEME — Amadeus 20 Years Mission Control (Balanced) =====
+
+// base colors — nền dịu, dễ nhìn hơn
+$color-white: #ecf6ff;
+$color-light-grey: #1a2226;
+$color-mid-grey: #2a3338;
+$color-dark-grey: #101518;
 $color-black: #000000;
 
-$color-red-step1: #ff462d;
-$color-red-step2: #ff422f;
-$color-red-step3: #ff3634;
-$color-red-step4: #ff223c;
-$color-red-step5: #ff0c45;
+// primary palette — cyan giảm độ sáng, tông “tech blue”
+$color-red-step1: #273fa8; // sáng nhất, xanh lam tươi
+$color-red-step2: #092f66; // lam đậm trung bình
+$color-red-step3: #051a43; // lam navy vừa
+$color-red-step4: #13226f; // lam navy đậm
+$color-red-step5: #000835; // lam đậm nhất (theo yêu cầu)
 
-$color-yellow: #ffbf1f;
-$color-blood-orange: #e54c23;
-$color-shadow: rgba($color-black, 0.2);
+// accent & alert
+$color-yellow: #3fe0ff; // accent chính: cyan dịu
+$color-blood-orange: #ff445a; // cảnh báo đỏ nhẹ
+$color-shadow: rgba($color-black, 0.65);
 
 // body
 $color-text-light: $color-white;
-$color-text-dark: $color-black;
-$color-link: rgba($color-white, 0.8);
-$color-link-hover: rgba($color-white, 0.9);
+$color-text-dark: #b9cbd3;
+$color-link: rgba($color-yellow, 0.85);
+$color-link-hover: rgba($color-yellow, 1);
 
 // title
 $color-title-border: $color-yellow;
 
 // button
 $color-button-text: $color-white;
-$color-button-default-background: $color-yellow;
-$color-button-default-hover-background: lighten($color-yellow, 5%);
+$color-button-default-background: $color-red-step4;
+$color-button-default-hover-background: lighten($color-red-step4, 7%);
 $color-button-danger-background: $color-blood-orange;
-$color-button-danger-hover-background: lighten($color-blood-orange, 5%);
+$color-button-danger-hover-background: lighten($color-blood-orange, 7%);
 
-// slot
-$color-slot-background: $color-yellow;
-$color-slot-shadow: $color-shadow;
-$color-slot-inner-background: $color-white;
-$color-slot-text: $color-black;
+// slot (name box)
+$color-slot-background: rgba($color-red-step5, 0.35);
+$color-slot-shadow: rgba($color-red-step2, 0.3);
+$color-slot-inner-background: rgba($color-black, 0.82);
+$color-slot-text: $color-red-step1;
 
-// settings
-$color-settings-mask: rgba($color-black, 0.6);
-$color-settings-background: darken($color-red-step5, 8%);
+// settings panel
+$color-settings-mask: rgba($color-black, 0.8);
+$color-settings-background: darken($color-dark-grey, 3%);
 
-// textarea
-$color-input-background: $color-light-grey;
-$color-input-placeholder: $color-mid-grey;
-$color-input-text: $color-black;
+// textarea / inputs
+$color-input-background: #0d1316;
+$color-input-placeholder: #718c97;
+$color-input-text: $color-white;
 
-// switch
-$color-switch-handle-disabled: $color-dark-grey;
-$color-switch-handle: darken($color-red-step5, 8%);
+// switch / toggles
+$color-switch-handle-disabled: #60686d;
+$color-switch-handle: $color-red-step3;
+
+// ===== nền tổng thể dịu (thay vì đen tuyệt đối) =====
+body {
+  background: radial-gradient(circle at 30% 25%, #142227 0%, #050708 90%);
+}

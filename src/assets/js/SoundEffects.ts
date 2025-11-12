@@ -18,7 +18,7 @@ interface SoundSeries {
 
 /** Class for playing sound effects via AudioContext */
 export default class SoundEffects {
-  /** Audio context instancce */
+  /** Audio context instance */
   private audioContext?: AudioContext;
 
   /** Indicator for whether this sound effect instance is muted */
@@ -28,7 +28,6 @@ export default class SoundEffects {
     if (window.AudioContext || window.webkitAudioContext) {
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
-
     this.isMuted = isMuted;
   }
 
@@ -44,12 +43,15 @@ export default class SoundEffects {
 
   /**
    * Play a sound by providing a list of keys and duration
-   * @param sound  Series of piano keys and it's durarion to play
+   * @param sound  Series of piano keys and its duration to play
    * @param config.type  Oscillator type
    * @param config.easeOut  Whether to ease out to 1% during last 100ms
    * @param config.volume  Volume of the sound to play, value should be between 0.1 and 1
    */
-  private playSound(sound: SoundSeries[], { type = 'sine', easeOut: shouldEaseOut = true, volume = 0.1 }: SoundConfig = {}): void {
+  private playSound(
+    sound: SoundSeries[],
+    { type = 'sine', easeOut: shouldEaseOut = true, volume = 0.1 }: SoundConfig = {}
+  ): void {
     const { audioContext } = this;
 
     // graceful exit for browsers that don't support AudioContext
@@ -64,7 +66,7 @@ export default class SoundEffects {
     gainNode.connect(audioContext.destination);
 
     oscillator.type = type;
-    gainNode.gain.value = volume; // set default volume to 10%
+    gainNode.gain.value = volume; // default volume
 
     const { currentTime: audioCurrentTime } = audioContext;
 
@@ -84,36 +86,7 @@ export default class SoundEffects {
   }
 
   /**
-   * Play the winning sound effect
-   * @returns Has sound effect been played
-   */
-  public win(): Promise<boolean> {
-    if (this.isMuted) {
-      return Promise.resolve(false);
-    }
-
-    const musicNotes: SoundSeries[] = [
-      { key: 'C4', duration: 0.175 },
-      { key: 'D4', duration: 0.175 },
-      { key: 'E4', duration: 0.175 },
-      { key: 'G4', duration: 0.275 },
-      { key: 'E4', duration: 0.15 },
-      { key: 'G4', duration: 0.9 }
-    ];
-    const totalDuration = musicNotes
-      .reduce((currentNoteTime, { duration }) => currentNoteTime + duration, 0);
-
-    this.playSound(musicNotes, { type: 'triangle', volume: 1, easeOut: true });
-
-    return new Promise<boolean>((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, totalDuration * 1000);
-    });
-  }
-
-  /**
-   * Play spinning sound effect for N seconds
+   * Play spinning sound effect for N seconds (Spy-style scanning tone)
    * @param durationInSecond  Duration of sound effect in seconds
    * @returns Has sound effect been played
    */
@@ -122,20 +95,57 @@ export default class SoundEffects {
       return Promise.resolve(false);
     }
 
-    const musicNotes: SoundSeries[] = [
-      { key: 'D#3', duration: 0.1 },
-      { key: 'C#3', duration: 0.1 },
+    // Tạo cảm giác "radar quét" bằng âm dao động giữa thấp và cao nhẹ
+    const pulseNotes: SoundSeries[] = [
+      { key: 'A2', duration: 0.1 },
+      { key: 'C3', duration: 0.1 },
+      { key: 'E3', duration: 0.1 },
       { key: 'C3', duration: 0.1 }
     ];
 
-    const totalDuration = musicNotes
-      .reduce((currentNoteTime, { duration }) => currentNoteTime + duration, 0);
+    const totalDuration = pulseNotes.reduce((sum, { duration }) => sum + duration, 0);
+    const repeatCount = Math.floor(durationInSecond / totalDuration) * pulseNotes.length;
 
-    const duration = Math.floor(durationInSecond * 10);
     this.playSound(
-      Array.from(Array(duration), (_, index) => musicNotes[index % 3]),
-      { type: 'triangle', easeOut: false, volume: 2 }
+      Array.from({ length: repeatCount }, (_, i) => pulseNotes[i % pulseNotes.length]),
+      {
+        type: 'triangle', // âm mềm, cảm giác “scan”
+        easeOut: false,
+        volume: 0.3
+      }
     );
+
+    return new Promise<boolean>((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, durationInSecond * 1000);
+    });
+  }
+
+  /**
+   * Play the winning sound effect (Spy-style "mission confirmed" tone)
+   * @returns Has sound effect been played
+   */
+  public win(): Promise<boolean> {
+    if (this.isMuted) {
+      return Promise.resolve(false);
+    }
+
+    // Âm "mission success" — nhẹ, ấm và bí ẩn
+    const musicNotes: SoundSeries[] = [
+      { key: 'C4', duration: 0.18 },
+      { key: 'E4', duration: 0.18 },
+      { key: 'G4', duration: 0.25 },
+      { key: 'C5', duration: 0.45 }
+    ];
+
+    const totalDuration = musicNotes.reduce((sum, { duration }) => sum + duration, 0);
+
+    this.playSound(musicNotes, {
+      type: 'sine', // âm mượt, không chói
+      easeOut: true,
+      volume: 0.35
+    });
 
     return new Promise<boolean>((resolve) => {
       setTimeout(() => {

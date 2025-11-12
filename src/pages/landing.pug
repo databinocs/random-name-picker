@@ -13,6 +13,7 @@ include ../mixins/icons
     .title
       //- Pug loader currently does not handle webpack alias so we will use relative path here
       include ../assets/images/title.svg
+      h1.mission-title MAKE IT POSSIBLE
 
     .slot
       .slot__outer
@@ -23,14 +24,14 @@ include ../mixins/icons
       #sunburst.sunburst
         img(src="~@images/sunburst.svg" alt="sunburst")
 
-    button#draw-button.solid-button Draw
+    button#draw-button.solid-button Activate
 
   #settings.settings
     #settings-panel.settings__panel
       div.settings__panel__group
         h1.settings__title Settings
         div.input-group
-          label.input-label(for="name-list") Name List
+          label.input-label(for="name-list") Agent List
           textarea.input-field.input-field--textarea(rows="8" placeholder="Separate each name by line break" id="name-list")
 
         div.input-group.input-group--2-column

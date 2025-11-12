@@ -1,10 +1,25 @@
+// ---------------------------------------------
+// 🔧 Cấu hình biến co giãn theo kích thước màn hình
+// ---------------------------------------------
+$scale-factors: (
+  'screen and (max-width: 1599px)': 0.8,
+  'screen and (max-width: 1024px)': 0.6,
+  'screen and (max-width: 768px)': 0.5,
+);
+
+// ---------------------------------------------
+// 🎯 Lucky Draw Section
+// ---------------------------------------------
 #lucky-draw {
   width: 100%;
   text-align: center;
   position: relative;
-  z-index: $z-index-lucky-draw; // make sure contents are on top of confetting
+  z-index: $z-index-lucky-draw; // make sure contents are on top of confetti
 }
 
+// ---------------------------------------------
+// 🏷️ Title Styling
+// ---------------------------------------------
 .title {
   height: auto;
   max-width: $title-width;
@@ -18,7 +33,7 @@
   @each $media-query, $factor in $scale-factors {
     @media #{$media-query} {
       max-width: $title-width * $factor;
-      margin: $title-margin-top 0 $title-margin-bottom * $factor 0;
+      margin: $title-margin-top 0 ($title-margin-bottom * $factor) 0;
     }
   }
 
@@ -29,15 +44,16 @@
   }
 }
 
+// ---------------------------------------------
+// ⚙️ Control Group
+// ---------------------------------------------
 .control-group {
   position: absolute;
   top: 1rem;
   right: 1rem;
 
-  // Fixing the notch issue on iOS when using "viewport-fit=cover"
   --safe-area-inset-right: 0px;
 
-  // Older iOS versions
   @supports (top: constant(safe-area-inset-top)) {
     --safe-area-inset-right: constant(safe-area-inset-right);
   }
@@ -55,6 +71,9 @@
   }
 }
 
+// ---------------------------------------------
+// 🎰 Slot Machine Layout
+// ---------------------------------------------
 .slot {
   position: relative;
 
@@ -109,6 +128,9 @@
   }
 }
 
+// ---------------------------------------------
+// 🎡 Reel Style
+// ---------------------------------------------
 .reel {
   width: 100%;
 
@@ -122,31 +144,36 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    /* enable gpu accelaration to fix iOS flicker issue */
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); // GPU acceleration for iOS flicker fix
   }
 }
 
+// ---------------------------------------------
+// 🎟️ Draw Button
+// ---------------------------------------------
 #draw-button {
   width: $draw-button-width;
   max-width: 100%;
   margin: $draw-button-margin-top 0 0;
   position: relative;
-  z-index: $z-index-draw-button; // make sure draw button on top of sunburst
+  z-index: $z-index-draw-button; // on top of sunburst
 
   @each $media-query, $factor in $scale-factors {
     @media #{$media-query} {
       width: $draw-button-width * $factor;
-      margin: $draw-button-margin-top * $factor 0 0;
+      margin: ($draw-button-margin-top * $factor) 0 0;
       font-size: max((1.75rem * $factor), 1rem);
       line-height: max((1.75rem * $factor), 1rem);
-      padding: 1rem * $factor 0.625rem * $factor;
+      padding: (1rem * $factor) (0.625rem * $factor);
       border-radius: 0.625rem * $factor;
       @include shadow('large', $factor);
     }
   }
 }
 
+// ---------------------------------------------
+// ⚙️ Settings Panel
+// ---------------------------------------------
 .settings {
   position: fixed;
   z-index: $z-index-settings - 1;
@@ -173,8 +200,6 @@
     overflow: auto;
     -webkit-overflow-scrolling: auto;
 
-    // Worksround for firefox overflow padding bottom issue
-    // https://bugzilla.mozilla.org/show_bug.cgi?id=748518
     &__group:last-child {
       padding-bottom: 3.125rem;
     }
@@ -207,7 +232,9 @@
   color: $color-text-light;
 }
 
-// Winning effects
+// ---------------------------------------------
+// 🌞 Winning Effects
+// ---------------------------------------------
 .sunburst {
   position: absolute;
   top: 50%;
@@ -231,6 +258,9 @@
   }
 }
 
+// ---------------------------------------------
+// 🎉 Confetti Overlay
+// ---------------------------------------------
 .confetti {
   position: fixed;
   width: 100%;
